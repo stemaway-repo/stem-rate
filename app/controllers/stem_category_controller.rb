@@ -16,7 +16,7 @@ class ::StemcategoryController < ::ApplicationController
 		totalCount = StemRatingSystemCategory.count
 		count = nil
 		if(search and search != "")
-			discourse_categories = Category.where("name LIKE ?", "%#{search}%").pluck("id")
+			discourse_categories = Category.where("name ILIKE ?", "%#{search}%").pluck("id")
 			categories = categories.where("category_id IN (?)", discourse_categories)
 			count = StemRatingSystemCategory.where("category_id IN (?)", discourse_categories).count
 		end

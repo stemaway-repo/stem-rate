@@ -14,8 +14,8 @@ class ::StemratingadminController < ::ApplicationController
 		totalCount = StemRatingSystemCategory.count()
 		count = nil
 		if (search and search != "")
-			systems = systems.where("categories.name LIKE ?", "%#{search}%")
-			count = systems.where("categories.name LIKE ?", "%#{search}%").count 
+			systems = systems.where("categories.name ILIKE ?", "%#{search}%")
+			count = systems.where("categories.name ILIKE ?", "%#{search}%").count 
 		end
 
 		if (!count)
