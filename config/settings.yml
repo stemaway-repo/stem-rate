@@ -1,0 +1,4 @@
+plugins:
+  post_snippet_max_length:
+    default: 100
+    client: true
