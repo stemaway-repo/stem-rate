@@ -51,6 +51,10 @@ jQuery.fn.extend({
           setstars($(this).parent().prev(), rating);
         });
 
+        $(obj).next().on('mouseleave', function(e){
+          setstars($(this).prev(), $(this).prev().val());
+        });
+
         setstars(obj, $(obj).val());
       }
     }
