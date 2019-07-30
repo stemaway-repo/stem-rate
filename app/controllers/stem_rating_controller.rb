@@ -32,15 +32,15 @@ class ::StemratingController < ::ApplicationController
 		category_id = post.topic.category.id
 
 		srs = StemRatingSystemCategory.where(
-			:category_id => category_id).first().stem_rating_system
+			:category_id => category_id).first()
 		if !srs
 			d = StemRatingSystem.where(
 				:name => "Default Rating System").first()
 			srs = StemRatingSystemCategory.create(
-				:category_id => category.id, 
+				:category_id => category_id, 
 				:stem_rating_system_id => d.id)
-			srs = srs.stem_rating_system
 		end
+		srs = srs.stem_rating_system
 		criteria = srs.stem_criteria
 
 		rating = StemPostRating.includes(:stem_post_criteria_rating)
