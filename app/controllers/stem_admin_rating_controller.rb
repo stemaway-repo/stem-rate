@@ -8,6 +8,21 @@ class ::StemratingadminController < ::ApplicationController
 		length = params[:length].to_i
 		search = params[:search][:value]
 
+		# correct any issues
+		category_ids = StemRatingSystemCategory.pluck(:category_id)
+		category_ids = Category.where.not(id: category_ids).pluck(:id)
+
+		if category_ids.length != 0 then
+			default_id = StemRatingSystem.where(
+				:name => "Default Rating System").first().id
+			category_ids.each do |category_id|
+				StemRatingSystemCategory.create(
+					:stem_rating_system_id => default_id,
+					:category_id => category_id
+				)
+			end
+		end
+
 		systems = StemRatingSystemCategory.joins(:category)
 							.joins(:stem_rating_system)
 							.order("categories.name asc")
