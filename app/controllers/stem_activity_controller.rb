@@ -31,10 +31,13 @@ class ::StemactivityController < ::ApplicationController
 
 			tags = PostTag.includes(:tag).where(post_id: post.id)
 			tags = tags.map {|post_tag| post_tag.tag}
-			tags = tags + topic.tags
+			if topic != nil
+				tags = tags + topic.tags
+			end
+			tag_names = tags.map {|tag| tag.name}
 
-			if tags.include? tag_name
-				if result[topic.id] ==nil
+			if tag_names.include? tag_name
+				if result[topic.id] == nil
 					result[topic.id] = {}
 					result[topic.id]['topic'] = topic
 					result[topic.id]['comments'] = []
@@ -64,8 +67,8 @@ class ::StemactivityController < ::ApplicationController
 		
 		respond_to do |format|
 			msg = { 
-				:topics => result,
-				:posts => posts
+				:topics => result
+				# :posts => posts
 			}
 			format.json { render :json => msg }
 		end
