@@ -43,6 +43,7 @@ class ::StemactivityController < ::ApplicationController
 			if topic != nil
 				tags = tags + topic.tags
 			end
+			tags = tags.select {|tag| tag != nil}
 			tag_names = tags.map {|tag| tag.name}
 
 			if tag_names.include? tag_name

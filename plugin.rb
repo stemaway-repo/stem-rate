@@ -1,6 +1,6 @@
 # name: STEM User Posts by Tag
 # about: Adds an endpoint to return a JSON of user activity grouped by tag
-# version: 0.0.3
+# version: 0.0.4
 # author: wally
 # url: null
 
