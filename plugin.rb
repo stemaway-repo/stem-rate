@@ -31,33 +31,33 @@ end
 
 after_initialize do
 
-	SiteSetting.tagging_enabled = true
-	SiteSetting.min_trust_to_create_tag = 0
-	SiteSetting.discourse_math_enabled = true
-	SiteSetting.discourse_math_provider = "katex"
-	SiteSetting.username_change_period = 0
-	SiteSetting.default_trust_level = 1
-	SiteSetting.logo = nil
-	SiteSetting.logo_small = nil
-	SiteSetting.post_menu = "share|flag|edit|bookmark|delete|admin|reply"
-	SiteSetting.min_first_post_typing_time = 10
-	SiteSetting.title = "STEM Away"
-	SiteSetting.min_trust_to_create_tag = 0
-	SiteSetting.max_topics_in_first_day = 100
-	SiteSetting.max_topics_per_day = 100
-	SiteSetting.newuser_spam_host_threshold = 100
-	SiteSetting.newuser_max_attachments = 100
-	SiteSetting.newuser_max_images = 100
-	SiteSetting.newuser_max_links = 100
-	SiteSetting.newuser_max_mentions_per_post = 100
-	SiteSetting.newuser_max_replies_per_topic = 100
-	SiteSetting.max_consecutive_replies = 100
-	SiteSetting.rate_limit_create_topic = 5
-	SiteSetting.rate_limit_create_post = 5
-	SiteSetting.rate_limit_new_user_create_topic = 5
-	SiteSetting.rate_limit_new_user_create_post = 5
-	SiteSetting.content_security_policy = 0
-	SiteSetting.min_trust_to_send_messages = 0
+	#SiteSetting.tagging_enabled = true
+	#SiteSetting.min_trust_to_create_tag = 0
+	#SiteSetting.discourse_math_enabled = true
+	#SiteSetting.discourse_math_provider = "katex"
+	#SiteSetting.username_change_period = 0
+	#SiteSetting.default_trust_level = 1
+	#SiteSetting.logo = nil
+	#SiteSetting.logo_small = nil
+	#SiteSetting.post_menu = "share|flag|edit|bookmark|delete|admin|reply"
+	#SiteSetting.min_first_post_typing_time = 10
+	#SiteSetting.title = "STEM Away"
+	#SiteSetting.min_trust_to_create_tag = 0
+	#SiteSetting.max_topics_in_first_day = 100
+	#SiteSetting.max_topics_per_day = 100
+	#SiteSetting.newuser_spam_host_threshold = 100
+	#SiteSetting.newuser_max_attachments = 100
+	#SiteSetting.newuser_max_images = 100
+	#SiteSetting.newuser_max_links = 100
+	#SiteSetting.newuser_max_mentions_per_post = 100
+	#SiteSetting.newuser_max_replies_per_topic = 100
+	#SiteSetting.max_consecutive_replies = 100
+	#SiteSetting.rate_limit_create_topic = 5
+	#SiteSetting.rate_limit_create_post = 5
+	#SiteSetting.rate_limit_new_user_create_topic = 5
+	#SiteSetting.rate_limit_new_user_create_post = 5
+	#SiteSetting.content_security_policy = 0
+	#SiteSetting.min_trust_to_send_messages = 0
 
 	require_dependency 'application_controller'
 
