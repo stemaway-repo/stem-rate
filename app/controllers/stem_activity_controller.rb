@@ -18,10 +18,19 @@ class ::StemactivityController < ::ApplicationController
 		for topic in topics do
 			if topic.tags.include? tag_name
 				if result[topic.id] == nil
+
+					post_ids = Post.where(topic_id: topic.id).pluck(:id)
+					rating = StemPostRating.where(post_id: post_ids).average(:average_value)
+					count = StemPostRating.where(post_id: post_ids).count()
+
 					result[topic.id] = {}
 					result[topic.id]['topic'] = topic
 					result[topic.id]['comments'] = []
 					result[topic.id]['comments'].append(topic)
+
+					result[topic.id]['topic_rating'] = rating
+					result[topic.id]['topic_vote_count'] = count
+					result[topic.id]['topic_category_name'] = topic.category.name
 				end
 			end
 		end
@@ -38,17 +47,24 @@ class ::StemactivityController < ::ApplicationController
 
 			if tag_names.include? tag_name
 				if result[topic.id] == nil
+					post_ids = Post.where(topic_id: topic.id).pluck(:id)
+					rating = StemPostRating.where(post_id: post_ids).average(:average_value)
+					count = StemPostRating.where(post_id: post_ids).count()
+
 					result[topic.id] = {}
 					result[topic.id]['topic'] = topic
 					result[topic.id]['comments'] = []
+
+					result[topic.id]['topic_rating'] = rating
+					result[topic.id]['topic_vote_count'] = count
+					result[topic.id]['topic_category_name'] = topic.category.name
 				end
 
 				data = {}
 				data['post'] = post
-				data['category_name'] = post.topic.category.name
-				data['rating'] = StemPostRating.where(:post_id => post.id)
+				data['post_rating'] = StemPostRating.where(:post_id => post.id)
 				                        .average(:average_value)
-				data['vote_count'] = StemPostRating.where(:post_id => post.id)
+				data['post_vote_count'] = StemPostRating.where(:post_id => post.id)
 							.count()
 				
 				result[topic.id]['comments'].append(data)
