@@ -42,7 +42,16 @@ class ::StemactivityController < ::ApplicationController
 					result[topic.id]['topic'] = topic
 					result[topic.id]['comments'] = []
 				end
-				result[topic.id]['comments'].append(post)
+
+				data = {}
+				data['post'] = post
+				data['category_name'] = post.topic.category.name
+				data['rating'] = StemPostRating.where(:post_id => post.id)
+				                        .average(:average_value)
+				data['vote_count'] = StemPostRating.where(:post_id => post.id)
+							.count()
+				
+				result[topic.id]['comments'].append(data)
 			end
 		end
 
