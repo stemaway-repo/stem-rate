@@ -16,27 +16,54 @@ class ::StemactivityController < ::ApplicationController
 		# todo: efficient select :)
 
 		for topic in topics do
+			topic_id = topic.id
 			if topic.tags.include? tag_name
-				if result[topic.id] == nil
+				if result[topic_id] == nil
 
-					post_ids = Post.where(topic_id: topic.id).pluck(:id)
+					post_ids = Post.where(topic_id: topic_id).pluck(:id)
 					rating = StemPostRating.where(post_id: post_ids).average(:average_value)
 					count = StemPostRating.where(post_id: post_ids).count()
+					cat_name = topic.category.name
 
-					result[topic.id] = {}
-					result[topic.id]['topic'] = topic
-					result[topic.id]['comments'] = []
-					result[topic.id]['comments'].append(topic)
+					result[topic_id] = {}
 
-					result[topic.id]['topic_rating'] = rating
-					result[topic.id]['topic_vote_count'] = count
-					result[topic.id]['topic_category_name'] = topic.category.name
+					topic = topic.slice(
+						:id,
+						:title,
+						:last_posted_at,
+						:created_at,
+						:updated_at,
+						:views,
+						:posts_count,
+						:user_id,
+						:last_post_user_id,
+						:reply_count,
+						:deleted_at,
+						:image_url,
+						:like_count,
+						:category_id,
+						:visible,
+						:score,
+						:percent_rank,
+						:slug,
+						:excerpt,
+						:fancy_title
+					)
+
+					topic['rating'] = rating
+					topic['vote_count'] = count
+					topic['category_name'] = cat_name
+
+					result[topic_id]['topic'] = topic
+					result[topic_id]['comments'] = []
+					result[topic_id]['comments'].append(topic)
 				end
 			end
 		end
 
 		for post in posts do
 			topic = post.topic
+			topic_id = topic.id
 
 			tags = PostTag.includes(:tag).where(post_id: post.id)
 			tags = tags.map {|post_tag| post_tag.tag}
@@ -47,28 +74,71 @@ class ::StemactivityController < ::ApplicationController
 			tag_names = tags.map {|tag| tag.name}
 
 			if tag_names.include? tag_name
-				if result[topic.id] == nil
-					post_ids = Post.where(topic_id: topic.id).pluck(:id)
+				if result[topic_id] == nil
+					post_ids = Post.where(topic_id: topic_id).pluck(:id)
 					rating = StemPostRating.where(post_id: post_ids).average(:average_value)
 					count = StemPostRating.where(post_id: post_ids).count()
+					cat_name = topic.category.name
 
-					result[topic.id] = {}
-					result[topic.id]['topic'] = topic
-					result[topic.id]['comments'] = []
+					topic = topic.slice(
+						:id,
+						:title,
+						:last_posted_at,
+						:created_at,
+						:updated_at,
+						:views,
+						:posts_count,
+						:user_id,
+						:last_post_user_id,
+						:reply_count,
+						:deleted_at,
+						:image_url,
+						:like_count,
+						:category_id,
+						:visible,
+						:score,
+						:percent_rank,
+						:slug,
+						:excerpt,
+						:fancy_title
+					)
 
-					result[topic.id]['topic_rating'] = rating
-					result[topic.id]['topic_vote_count'] = count
-					result[topic.id]['topic_category_name'] = topic.category.name
+					topic['rating'] = rating
+					topic['vote_count'] = count
+					topic['category_name'] = cat_name
+
+					result[topic_id] = {}
+					result[topic_id]['topic'] = topic
+					result[topic_id]['comments'] = []
 				end
 
+				post_id = post.id
 				data = {}
-				data['post'] = post
-				data['post_rating'] = StemPostRating.where(:post_id => post.id)
+				post = post.slice(
+					:id,
+					:user_id,
+					:topic_id,
+					:post_number,
+					:created_at,
+					:updated_at,
+					:reply_to_post_number,
+					:reply_count,
+					:deleted_at,
+					:like_count,
+					:score,
+					:reads,
+					:post_type,
+					:last_version_at,
+					:like_score,
+					:word_count,
+					:image_url
+				)
+				post['rating'] = StemPostRating.where(:post_id => post_id)
 				                        .average(:average_value)
-				data['post_vote_count'] = StemPostRating.where(:post_id => post.id)
+				post['vote_count'] = StemPostRating.where(:post_id => post_id)
 							.count()
-				
-				result[topic.id]['comments'].append(data)
+				data['post'] = post
+				result[topic_id]['comments'].append(data)
 			end
 		end
 
