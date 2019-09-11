@@ -1,6 +1,18 @@
 
 class ::StemactivityController < ::ApplicationController
-	
+
+	def create_tag
+		tag_name = params[:tag]
+		tag = Tag.where(name: tag_name).first_or_create
+
+		respond_to do |format|
+			msg = { 
+				:tag => tag
+			}
+			format.json { render :json => msg }
+		end
+	end
+
 	def posts_by_tag
 
 		tag_name = params[:tag]
