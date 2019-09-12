@@ -81,8 +81,8 @@ after_initialize do
 
 	Discourse::Application.routes.append do
 		
-		get "stem/users/:username/:tag" => "stemactivity#posts_by_tag"
-		get "stem/tag/create/:tag" => "stemactivity#create_tag"
+		get "stem/users/:username/:tag" => "stemactivity#posts_by_tag", constraints: AdminConstraint.new(require_master: true)
+		get "stem/tag/create/:tag" => "stemactivity#create_tag", constraints: AdminConstraint.new(require_master: true)
 
 		get "stem/rating/get" => "stemrating#get"
 		get "stem/rating/rate" => "stemrating#rate"
