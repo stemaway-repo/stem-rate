@@ -134,7 +134,18 @@ function initializePlugin(api) {
 					rate.parentNode.prepend(count);
 
 					count.onclick = function(){
-						// todo: 
+						$.ajax(
+							document.location.origin + "/stem/rating/average.json",
+							{
+								data: {
+									post_id: post.post_number
+								},
+								success: function(data){
+									// todo: display data
+									console.log(data);
+								}
+							}
+						)
 					};
 				}
 			}

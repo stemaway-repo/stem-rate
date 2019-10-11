@@ -10,18 +10,34 @@ class ::StemratingController < ::ApplicationController
 			average = 0
 		end
 
+		# average by criteria
+		rating = StemPostRating.where(:post_id => post_id).first
+		category_id = Post.find(rating.post_id).topic.category.id
+		rating_system_id = StemRatingSystemCategory.where(
+			category_id: category_id).first.stem_rating_system_id
+		criteria = StemCriterium.where(
+			stem_rating_system_id: rating_system_id).all
+
+		rating_by_criteria = {}
+		criteria.each do |criterium|
+			rating_by_criteria[criterium.name] = StemPostCriteriaRating.where(
+				stem_user_post_rating_id: rating.id, stem_criteria_id: criterium.id
+			).average(:value).to_f
+		end
+
 		already_rated = false
 		if current_user
 			rated = StemPostRating.where(:post_id => post_id, :user_id => current_user.id).first()
 			already_rated = rated ? true : false
 		end
-		
+
 		average = average.round(2)
 		respond_to do |format|
 			msg = { 
 				:post_id => post_id,
 				:average => average,
 				:count => count,
+				:rating_by_criteria => rating_by_criteria,
 				:already_rated => already_rated
 			}
 			format.json { render :json => msg }
