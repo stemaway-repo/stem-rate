@@ -126,6 +126,16 @@ function initializePlugin(api) {
 					if (data.already_rated)
 						star.style.color = "#f5ba00";
 					rate.append(star);
+
+					var count = document.createElement("button");
+					count.style.display = "inline";
+					count.style.className = "widget-button btn-flat";
+					count.append("(" + data.count + ")")
+					rate.parentNode.prepend(count);
+
+					count.onclick = function(){
+						// todo: 
+					};
 				}
 			}
 		);
