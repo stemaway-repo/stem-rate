@@ -11,27 +11,29 @@ class ::StemratingController < ::ApplicationController
 		end
 
 		rating_by_criteria = {}
-		if (average != 0)
+		if count != 0
+			# average by criteria
 			rating = StemPostRating.where(:post_id => post_id).first
 			category_id = Post.find(rating.post_id).topic.category.id
 			rating_system_id = StemRatingSystemCategory.where(
 				category_id: category_id).first.stem_rating_system_id
 			criteria = StemCriterium.where(
 				stem_rating_system_id: rating_system_id).all
+
 			criteria.each do |criterium|
 				criteria_average = StemPostCriteriaRating.where(
 					stem_user_post_rating_id: rating.id, stem_criteria_id: criterium.id
 				).average(:value)
 				criteria_average = criteria_average.round(2)
+				rating_by_criteria[criterium.name] = criteria_average
 			end
-		end
+		end			
 
 		already_rated = false
 		if current_user
 			rated = StemPostRating.where(:post_id => post_id, :user_id => current_user.id).first()
 			already_rated = rated ? true : false
 		end
-
 
 		average = average.round(2)
 		respond_to do |format|

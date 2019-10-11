@@ -109,14 +109,12 @@ function initializePlugin(api) {
 					rate.parentNode.prepend(count);
 
 					count.onclick = function(){
-
 						var selector = "#rating-by-criteria-" + post.id;
 						var results = $(selector);
 						if (results[0]) {
 							$(selector).remove();
 						}
 						else {
-
 							$.ajax(
 								document.location.origin + "/stem/rating/average.json",
 								{
