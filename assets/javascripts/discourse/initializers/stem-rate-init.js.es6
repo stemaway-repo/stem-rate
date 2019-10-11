@@ -74,6 +74,8 @@ $("#button-retract").on('click', function(){
 
 function initializePlugin(api) {
 
+	var alreadyDecorated = false;
+
 	api.decorateWidget('post-contents:after-cooked', helper => {
 		let post = helper.getModel();
 		let result = [];
@@ -86,34 +88,6 @@ function initializePlugin(api) {
 				success: function(data){
 					result = data;
 
-					// var id = "#post_" + post.post_number;
-					// // rating button should alwaysbe first
-					// var rate_id = id + " nav .actions button";
-					// var rate = $(rate_id)[0];
-					// rate.innerHTML = "";
-
-					// var stars = document.createElement("div");
-					// stars.className = "simple-rating star-rating";
-					// stars.style.display = "inline";
-
-					// for (var i=1; i<=5; i++){
-					// 	var list_item = document.createElement("i");
-					// 	if (i<=data.average){
-					// 		list_item.className = "fa fa-star";
-					// 	} else {
-					// 		list_item.className = "fa fa-star-o";
-					// 	}
-					// 	if (data.already_rated)
-					// 		list_item.style.color = "#f5ba00";
-					// 	stars.append(list_item);
-					// }
-					
-					// rate.append(data.average);
-					// rate.append(stars);
-					// rate.append("(" + data.count + ")");
-
-
-
 					var id = "#post_" + post.post_number;
 					// rating button should alwaysbe first
 					var rate_id = id + " nav .actions button";
@@ -125,6 +99,7 @@ function initializePlugin(api) {
 					star.style.display = "inline";
 					if (data.already_rated)
 						star.style.color = "#f5ba00";
+
 					rate.append(star);
 
 					var count = document.createElement("button");
@@ -151,31 +126,33 @@ function initializePlugin(api) {
 									success: function(data){
 										var ratings = data.rating_by_criteria;
 
-										var div = document.createElement("div");
-										div.id = "rating-by-criteria-" + post.id;
+										if (data.average > 0){
 
-										var title = document.createElement("div");
-										title.innerHTML = "Reasons for upvote";
-										title.style = "font-size: 24px; font-weight: bold; padding: 10px;";
-										div.append(title);
+											var div = document.createElement("div");
+											div.id = "rating-by-criteria-" + post.id;
 
-										for (var key in ratings){
-											var value = ratings[key];
-											console.log(value);
-											var rating_div = document.createElement("div");
-											rating_div.style = "font-size: 18px; padding: 5px;";
-											rating_div.append(value);
-											var i = document.createElement("i");
-											i.className = "fa fa-star";
-											rating_div.append(i);
-											rating_div.append(key);
-											div.append(rating_div);
+											var title = document.createElement("div");
+											title.innerHTML = "Reasons for upvote";
+											title.style = "font-size: 24px; font-weight: bold; padding: 10px;";
+											div.append(title);
+
+											for (var key in ratings){
+												var value = ratings[key];
+												var rating_div = document.createElement("div");
+												rating_div.style = "font-size: 18px; padding: 5px;";
+												rating_div.append(value);
+												var i = document.createElement("i");
+												i.className = "fa fa-star";
+												rating_div.append(i);
+												rating_div.append(key);
+												div.append(rating_div);
+											}
+
+											var id = "#post_" + post.post_number;
+											var nav_id = id + " .post-menu-area";
+											var nav = $(nav_id)[0];
+											nav.append(div);
 										}
-
-										var id = "#post_" + post.post_number;
-										var nav_id = id + " .post-menu-area";
-										var nav = $(nav_id)[0];
-										nav.append(div);
 									}
 								}
 							)
