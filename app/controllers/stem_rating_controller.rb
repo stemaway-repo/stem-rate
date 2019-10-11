@@ -22,7 +22,7 @@ class ::StemratingController < ::ApplicationController
 		criteria.each do |criterium|
 			rating_by_criteria[criterium.name] = StemPostCriteriaRating.where(
 				stem_user_post_rating_id: rating.id, stem_criteria_id: criterium.id
-			).average(:value).to_f
+			).average(:value)
 		end
 
 		already_rated = false

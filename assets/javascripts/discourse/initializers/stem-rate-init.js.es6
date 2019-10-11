@@ -134,18 +134,52 @@ function initializePlugin(api) {
 					rate.parentNode.prepend(count);
 
 					count.onclick = function(){
-						$.ajax(
-							document.location.origin + "/stem/rating/average.json",
-							{
-								data: {
-									post_id: post.post_number
-								},
-								success: function(data){
-									// todo: display data
-									console.log(data);
+
+						var selector = "#rating-by-criteria-" + post.id;
+						var results = $(selector);
+						if (results[0]) {
+							$(selector).remove();
+						}
+						else {
+
+							$.ajax(
+								document.location.origin + "/stem/rating/average.json",
+								{
+									data: {
+										post_id: post.id
+									},
+									success: function(data){
+										var ratings = data.rating_by_criteria;
+
+										var div = document.createElement("div");
+										div.id = "rating-by-criteria-" + post.id;
+
+										var title = document.createElement("div");
+										title.innerHTML = "Reasons for upvote";
+										title.style = "font-size: 24px; font-weight: bold; padding: 10px;";
+										div.append(title);
+
+										for (var key in ratings){
+											var value = ratings[key];
+											console.log(value);
+											var rating_div = document.createElement("div");
+											rating_div.style = "font-size: 18px; padding: 5px;";
+											rating_div.append(value);
+											var i = document.createElement("i");
+											i.className = "fa fa-star";
+											rating_div.append(i);
+											rating_div.append(key);
+											div.append(rating_div);
+										}
+
+										var id = "#post_" + post.post_number;
+										var nav_id = id + " .post-menu-area";
+										var nav = $(nav_id)[0];
+										nav.append(div);
+									}
 								}
-							}
-						)
+							)
+						}
 					};
 				}
 			}
