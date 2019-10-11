@@ -9,8 +9,13 @@ class ::StemratingController < ::ApplicationController
 		if count == 0
 			average = 0
 		end
-		rated = StemPostRating.where(:post_id => post_id, :user_id => current_user.id).first()
-		already_rated = rated ? true : false
+
+		already_rated = false
+		if current_user
+			rated = StemPostRating.where(:post_id => post_id, :user_id => current_user.id).first()
+			already_rated = rated ? true : false
+		end
+		
 		average = average.round(2)
 		respond_to do |format|
 			msg = { 

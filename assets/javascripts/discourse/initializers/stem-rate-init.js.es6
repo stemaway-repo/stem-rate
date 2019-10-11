@@ -86,31 +86,46 @@ function initializePlugin(api) {
 				success: function(data){
 					result = data;
 
+					// var id = "#post_" + post.post_number;
+					// // rating button should alwaysbe first
+					// var rate_id = id + " nav .actions button";
+					// var rate = $(rate_id)[0];
+					// rate.innerHTML = "";
+
+					// var stars = document.createElement("div");
+					// stars.className = "simple-rating star-rating";
+					// stars.style.display = "inline";
+
+					// for (var i=1; i<=5; i++){
+					// 	var list_item = document.createElement("i");
+					// 	if (i<=data.average){
+					// 		list_item.className = "fa fa-star";
+					// 	} else {
+					// 		list_item.className = "fa fa-star-o";
+					// 	}
+					// 	if (data.already_rated)
+					// 		list_item.style.color = "#f5ba00";
+					// 	stars.append(list_item);
+					// }
+					
+					// rate.append(data.average);
+					// rate.append(stars);
+					// rate.append("(" + data.count + ")");
+
+
+
 					var id = "#post_" + post.post_number;
 					// rating button should alwaysbe first
 					var rate_id = id + " nav .actions button";
 					var rate = $(rate_id)[0];
 					rate.innerHTML = "";
 
-					var stars = document.createElement("div");
-					stars.className = "simple-rating star-rating";
-					stars.style.display = "inline";
-
-					for (var i=1; i<=5; i++){
-						var list_item = document.createElement("i");
-						if (i<=data.average){
-							list_item.className = "fa fa-star";
-						} else {
-							list_item.className = "fa fa-star-o";
-						}
-						if (data.already_rated)
-							list_item.style.color = "#f5ba00";
-						stars.append(list_item);
-					}
-					
-					rate.append(data.average);
-					rate.append(stars);
-					rate.append("(" + data.count + ")");
+					var star = document.createElement("i");
+					star.className = "fa fa-star";
+					star.style.display = "inline";
+					if (data.already_rated)
+						star.style.color = "#f5ba00";
+					rate.append(star);
 				}
 			}
 		);
