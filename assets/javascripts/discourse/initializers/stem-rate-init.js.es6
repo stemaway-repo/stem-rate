@@ -45,7 +45,6 @@ form.on('submit', function(event){
 		{
 			data: data,
 			success: function (data){
-				// todo:
 				stemCloseModal();
 				location.reload();
 			}
@@ -92,15 +91,15 @@ function initializePlugin(api) {
 					// rating button should alwaysbe first
 					var rate_id = id + " nav .actions button";
 					var rate = $(rate_id)[0];
-//					rate.innerHTML = "";
+					rate.innerHTML = "";
 
-					var star = document.createElement("i");
-					star.className = "fa fa-star";
-					star.style.display = "inline";
+					var thumb = document.createElement("i");
+					thumb.className = "fa fa-thumbs-up";
+					thumb.style.display = "inline";
 					if (data.already_rated)
-						star.style.color = "#f5ba00";
+						thumb.style.color = "#f5ba00";
 
-//					rate.append(star);
+					rate.append(thumb);
 
 					var count = document.createElement("button");
 					count.style.display = "inline";
