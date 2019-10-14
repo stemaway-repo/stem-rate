@@ -130,18 +130,18 @@ function initializePlugin(api) {
 
 											var title = document.createElement("div");
 											title.innerHTML = "Reasons for upvote";
-											title.style = "font-size: 24px; font-weight: bold; padding: 10px;";
+											title.style = "font-size: 20px; font-weight: bold; padding: 10px;";
 											div.append(title);
 
 											for (var key in ratings){
 												var value = ratings[key];
 												var rating_div = document.createElement("div");
-												rating_div.style = "font-size: 18px; padding: 5px;";
-												rating_div.append(value);
+												rating_div.style = "font-size: 16px; padding: 5px;";
+												rating_div.append(value + " ");
 												var i = document.createElement("i");
 												i.className = "fa fa-star";
 												rating_div.append(i);
-												rating_div.append(key);
+												rating_div.append(" " + key);
 												div.append(rating_div);
 											}
 
