@@ -87,6 +87,12 @@ function initializePlugin(api) {
 				success: function(data){
 					result = data;
 
+					var thumb_id = "thumbs-up-" + post.id;
+					var count_id = "count-" + post.id;
+
+					$("#" + thumb_id).remove()
+					$("#" + count_id).remove()
+
 					var id = "#post_" + post.post_number;
 					// rating button should alwaysbe first
 					var rate_id = id + " nav .actions button";
@@ -98,13 +104,81 @@ function initializePlugin(api) {
 					thumb.style.display = "inline";
 					if (data.already_rated)
 						thumb.style.color = "#f5ba00";
+					thumb.id = thumb_id;
+					thumb.onclick = function(){
+						var el = event.target.closest("article");
+						var postId = $(el).attr("data-post-id");
+						
+						$.ajax(
+							document.location.origin + "/stem/rating/get.json",
+							{
+								data: {
+									post_id: postId
+								},
+								success: function(data){
+									$("#stem-rate-post-id").val(postId);
+									var rating = data.rating;
+									var container = $("#stem-rate-fields")[0];
+									container.innerHTML = "";
+									for (var i in rating){
+										var r = rating[i];
 
+										var intermediate = document.createElement("div");
+										intermediate.className = "stem-modal-intermediate-container";
+
+										var label;
+										label = document.createElement("div");
+										label.innerHTML = r.name;
+										label.className = "stem-modal-rating-left";
+										intermediate.append(label);
+										
+										var hidden;
+										hidden = document.createElement("input");
+										hidden.type = "hidden";
+										hidden.name = "criteria_ids[]";
+										hidden.value = r.id;
+										intermediate.append(hidden);
+										
+										var stars;
+										stars = document.createElement("div");
+										document.className = "stem-modal-rating-right";
+
+										var input;
+										input = document.createElement("input")
+										input.type = "number";
+										input.className = "rating";
+										input.name = "criteria_values[]";
+										input.value = r.value;
+										stars.append(input);
+										intermediate.append(stars);
+
+										container.append(intermediate);
+									}
+
+									$('.rating').rating();
+
+									if (data.already_rated){
+										$("#stem-vote")[0].style.display = "none";
+										$("#stem-revote")[0].style.display = "block";
+										$("#button-retract")[0].style.display = "inline";
+									} else {
+										$("#stem-vote")[0].style.display = "block";
+										$("#stem-revote")[0].style.display = "none";
+										$("#button-retract")[0].style.display = "none";
+									}
+
+									modal.style.display = "block";
+								}
+							}
+						);
+					}
 					rate.append(thumb);
 
 					var count = document.createElement("button");
 					count.style.display = "inline";
 					count.style.className = "widget-button btn-flat";
-					count.append("(" + data.count + ")")
+					count.append("(" + data.count + ")");
+					count.id = count_id;
 					rate.parentNode.prepend(count);
 
 					count.onclick = function(){
