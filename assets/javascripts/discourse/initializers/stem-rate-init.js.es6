@@ -92,7 +92,7 @@ function initializePlugin(api) {
 					// rating button should alwaysbe first
 					var rate_id = id + " nav .actions button";
 					var rate = $(rate_id)[0];
-					rate.innerHTML = "";
+//					rate.innerHTML = "";
 
 					var star = document.createElement("i");
 					star.className = "fa fa-star";
@@ -100,7 +100,7 @@ function initializePlugin(api) {
 					if (data.already_rated)
 						star.style.color = "#f5ba00";
 
-					rate.append(star);
+//					rate.append(star);
 
 					var count = document.createElement("button");
 					count.style.display = "inline";
@@ -165,7 +165,7 @@ function initializePlugin(api) {
 	api.addPostMenuButton('stem-rate', attrs => {
 	    return {
 	      action: 'clickStemRate',
-	      icon: 'far-smile',
+	      icon: 'far-thumbs-up',
 	      title: 'stem_rating.rate_title',
 	      position: 'first',
 	    }
