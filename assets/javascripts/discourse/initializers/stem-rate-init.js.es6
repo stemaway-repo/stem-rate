@@ -13,7 +13,7 @@ $('body').append('<center>\
 	  	</div>\
 	  	<div id="stem-revote" style="display: none;">\
 		  	<div class="stem-modal-title">Re-rate the post</div>\
-		  	<div class="stem-modal-description">Re-select the number of starsfor each attribute. Or unvote.</div>\
+		  	<div class="stem-modal-description">Re-select the number of stars for each attribute. Or unvote.</div>\
 		</div>\
 	    <form id="stem-rate-form" action="">\
 	    	<input type="hidden" name="post_id" value="" id="stem-rate-post-id"/>\
