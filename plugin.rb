@@ -11,6 +11,27 @@ enabled_site_setting :post_snippet_max_length
 # gem 'ajax-datatables-rails'
 # gem 'jquery-datatables'
 
+register_asset "stylesheets/fontawesome.all.css"
+register_asset "stylesheets/fontawesome.v4-shims.css"
+
+register_asset "webfonts/fa-brands-400.eot"
+register_asset "webfonts/fa-brands-400.woff"
+register_asset "webfonts/fa-brands-400.woff2"
+register_asset "webfonts/fa-brands-400.svg"
+register_asset "webfonts/fa-brands-400.ttf"
+
+register_asset "webfonts/fa-regular-400.eot"
+register_asset "webfonts/fa-regular-400.woff"
+register_asset "webfonts/fa-regular-400.woff2"
+register_asset "webfonts/fa-regular-400.svg"
+register_asset "webfonts/fa-regular-400.ttf"
+
+register_asset "webfonts/fa-solid-900.eot"
+register_asset "webfonts/fa-solid-900.woff"
+register_asset "webfonts/fa-solid-900.woff2"
+register_asset "webfonts/fa-solid-900.svg"
+register_asset "webfonts/fa-solid-900.ttf"
+
 register_asset "javascripts/jquery.dataTables.min.js"
 register_asset "javascripts/simple.rating.js"
 register_asset "stylesheets/jquery.dataTables.min.css"
