@@ -151,6 +151,9 @@ class ::StemratingController < ::ApplicationController
 		rating.average_value = average_value
 		rating.save()
 
+		post = Post.find(post_id)
+		result = PostActionCreator.like(user, post)
+
 		rating = StemPostRating.includes(:stem_post_criteria_rating).find(rating.id)
 
 		respond_to do |format|
@@ -173,6 +176,12 @@ class ::StemratingController < ::ApplicationController
 			StemPostCriteriaRating.where(
 				:stem_user_post_rating_id => rating.id).destroy_all()
 			rating.destroy()
+		end
+
+		pa = PostAction.where(user_id: user.id, post_id: post_id, 
+				 post_action_type_id: PostActionType.types[:like]).first
+		if (pa != nil)
+			pa.delete
 		end
 
 		respond_to do |format|
