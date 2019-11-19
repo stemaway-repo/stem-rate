@@ -26,6 +26,8 @@ class ::StemratingadminController < ::ApplicationController
 		systems = StemRatingSystemCategory.joins(:category)
 							.joins(:stem_rating_system)
 							.order("categories.name asc")
+							.limit(length)
+							.offset(start)
 		totalCount = StemRatingSystemCategory.count()
 		count = nil
 		if (search and search != "")
