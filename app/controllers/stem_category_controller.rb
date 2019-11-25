@@ -13,7 +13,7 @@ class ::StemcategoryController < ::ApplicationController
 		categories = StemRatingSystemCategory.includes(
 						:category, :stem_rating_system)
 					.offset(start).limit(length)
-		totalCount = StemRatingSystemCategory.count
+		totalCount = Category.count
 		count = nil
 		if(search and search != "")
 			discourse_categories = Category.where("name ILIKE ?", "%#{search}%").pluck("id")

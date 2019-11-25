@@ -135,5 +135,4 @@ after_initialize do
 	DiscourseEvent.on(:post_edited) do |post|
 		StemPost.extract_tags(post)
 	end
-
 end

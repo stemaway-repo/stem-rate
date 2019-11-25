@@ -28,7 +28,7 @@ class ::StemratingadminController < ::ApplicationController
 							.order("categories.name asc")
 							.limit(length)
 							.offset(start)
-		totalCount = StemRatingSystemCategory.count()
+		totalCount = Category.count()
 		count = nil
 		if (search and search != "")
 			systems = systems.where("categories.name ILIKE ?", "%#{search}%")
