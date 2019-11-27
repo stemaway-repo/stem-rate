@@ -76,13 +76,12 @@ class ::StemactivityController < ::ApplicationController
 		for post in posts do
 			topic = post.topic
 			if topic != nil
-				
-				tags = tags + topic.tags
-			
 				topic_id = topic.id
 
 				tags = PostTag.includes(:tag).where(post_id: post.id)
 				tags = tags.map {|post_tag| post_tag.tag}
+				
+				tags = tags + topic.tags
 
 				tags = tags.select {|tag| tag != nil}
 				tag_names = tags.map {|tag| tag.name}
