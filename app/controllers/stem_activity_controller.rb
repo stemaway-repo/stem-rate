@@ -75,82 +75,85 @@ class ::StemactivityController < ::ApplicationController
 
 		for post in posts do
 			topic = post.topic
-			topic_id = topic.id
-
-			tags = PostTag.includes(:tag).where(post_id: post.id)
-			tags = tags.map {|post_tag| post_tag.tag}
 			if topic != nil
+				
 				tags = tags + topic.tags
-			end
-			tags = tags.select {|tag| tag != nil}
-			tag_names = tags.map {|tag| tag.name}
+			
+				topic_id = topic.id
 
-			if tag_names.include? tag_name
-				if result[topic_id] == nil
-					post_ids = Post.where(topic_id: topic_id).pluck(:id)
-					rating = StemPostRating.where(post_id: post_ids).average(:average_value)
-					count = StemPostRating.where(post_id: post_ids).count()
-					cat_name = topic.category.name
+				tags = PostTag.includes(:tag).where(post_id: post.id)
+				tags = tags.map {|post_tag| post_tag.tag}
 
-					topic = topic.slice(
+				tags = tags.select {|tag| tag != nil}
+				tag_names = tags.map {|tag| tag.name}
+
+				if tag_names.include? tag_name
+					if result[topic_id] == nil
+						post_ids = Post.where(topic_id: topic_id).pluck(:id)
+						rating = StemPostRating.where(post_id: post_ids).average(:average_value)
+						count = StemPostRating.where(post_id: post_ids).count()
+						cat_name = topic.category.name
+
+						topic = topic.slice(
+							:id,
+							:title,
+							:last_posted_at,
+							:created_at,
+							:updated_at,
+							:views,
+							:posts_count,
+							:user_id,
+							:last_post_user_id,
+							:reply_count,
+							:deleted_at,
+							:image_url,
+							:like_count,
+							:category_id,
+							:visible,
+							:score,
+							:percent_rank,
+							:slug,
+							:excerpt,
+							:fancy_title
+						)
+
+						topic['rating'] = rating
+						topic['vote_count'] = count
+						topic['category_name'] = cat_name
+
+						result[topic_id] = {}
+						result[topic_id]['topic'] = topic
+						result[topic_id]['comments'] = []
+					end
+
+					post_id = post.id
+					data = {}
+					post = post.slice(
 						:id,
-						:title,
-						:last_posted_at,
+						:user_id,
+						:topic_id,
+						:post_number,
 						:created_at,
 						:updated_at,
-						:views,
-						:posts_count,
-						:user_id,
-						:last_post_user_id,
+						:reply_to_post_number,
 						:reply_count,
 						:deleted_at,
-						:image_url,
 						:like_count,
-						:category_id,
-						:visible,
 						:score,
-						:percent_rank,
-						:slug,
-						:excerpt,
-						:fancy_title
+						:reads,
+						:post_type,
+						:last_version_at,
+						:like_score,
+						:word_count,
+						:image_url
 					)
-
-					topic['rating'] = rating
-					topic['vote_count'] = count
-					topic['category_name'] = cat_name
-
-					result[topic_id] = {}
-					result[topic_id]['topic'] = topic
-					result[topic_id]['comments'] = []
+					post['rating'] = StemPostRating.where(:post_id => post_id)
+											.average(:average_value)
+					post['vote_count'] = StemPostRating.where(:post_id => post_id)
+								.count()
+					data['post'] = post
+					result[topic_id]['comments'].append(data)
 				end
-
-				post_id = post.id
-				data = {}
-				post = post.slice(
-					:id,
-					:user_id,
-					:topic_id,
-					:post_number,
-					:created_at,
-					:updated_at,
-					:reply_to_post_number,
-					:reply_count,
-					:deleted_at,
-					:like_count,
-					:score,
-					:reads,
-					:post_type,
-					:last_version_at,
-					:like_score,
-					:word_count,
-					:image_url
-				)
-				post['rating'] = StemPostRating.where(:post_id => post_id)
-				                        .average(:average_value)
-				post['vote_count'] = StemPostRating.where(:post_id => post_id)
-							.count()
-				data['post'] = post
-				result[topic_id]['comments'].append(data)
 			end
 		end
 
