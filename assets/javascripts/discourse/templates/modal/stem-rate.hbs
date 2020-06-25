@@ -1,0 +1,14 @@
+{{#d-modal-body}}
+	    <form id="stem-rate-form" action="">
+	    	<input type="hidden" name="post_id" value="" id="stem-rate-post-id"/>
+	    	<div id="stem-rate-fields" class="stem-modal-rating-container"></div>
+      {{d-button
+        class="btn-default"
+        action=(action "cancel")
+        label="cancel"}}
+      {{d-button
+        class="btn-default primary"
+        action=(action "cancel")
+        label="submit"}}
+	    </form>
+{{/d-modal-body}}
