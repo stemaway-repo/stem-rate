@@ -1,202 +1,127 @@
 import { withPluginApi } from 'discourse/lib/plugin-api'
+import I18n from 'I18n'
+import { ajax } from 'discourse/lib/ajax'
+import showModal from 'discourse/lib/show-modal'
+import { h } from 'virtual-dom'
+import { renderIcon } from 'discourse-common/lib/icon-library'
 
-// var modalId = "stem-modal-id";
-// $('body').append('<center>\
-// 	<div id="'+ modalId +'" class="stem-modal">\
-// 	  <div class="stem-modal-content">\
-// 	  	<span id="stem-modal-close" class="stem-modal-close">&times;</span>\
-// 	  	<div id="stem-vote">\
-// 		  	<div class="stem-modal-title">Rate the post</div>\
-// 		  	<div class="stem-modal-description">Select number of stars. You may award stars for one or more attributes.</div>\
-// 	  	</div>\
-// 	  	<div id="stem-revote" style="display: none;">\
-// 		  	<div class="stem-modal-title">Re-rate the post</div>\
-// 		  	<div class="stem-modal-description">Re-select the number of stars for each attribute. Or unvote.</div>\
-// 		</div>\
-// 	    <form id="stem-rate-form" action="">\
-// 	    	<input type="hidden" name="post_id" value="" id="stem-rate-post-id"/>\
-// 	    	<div id="stem-rate-fields" class="stem-modal-rating-container">\
-// 	    	</div>\
-// 	    	<input type="button" value="CANCEL" id="button-cancel" class="stem-button stem-button-gray">\
-// 	    	<input type="submit" value="SUBMIT" class="stem-button stem-button-blue">\
-// 	    	<input type="button" value="UNVOTE" id="button-retract" class="stem-button stem-button-red" style="display: block;">\
-// 	    </form>\
-// 	  </div>\
-// 	</div>\
-// </center>');
-
-// $.ajax(document.location.origin + "/stem/rating/rate.json")
-// 	$.ajax("/stem/rating/retract.json")
-
-// $.ajax(document.location.origin + "/stem/rating/average.json",
-// 	{
-// 		data: {
-// 			post_id: post.id
-// 		},
-// 		success: function(data){
-// 			result = data;
-//
-// 			var thumb_id = "thumbs-up-" + post.id;
-// 			var count_id = "count-" + post.id;
-//
-// 			$("#" + thumb_id).remove()
-// 			$("#" + count_id).remove()
-//
-// 			var id = "#post_" + post.post_number;
-// 			// rating button should alwaysbe first
-// 			var rate_id = id + " nav .actions button";
-// 			var rate = $(rate_id)[0];
-// 			rate.innerHTML = "";
-//
-// 			var thumb = document.createElement("i");
-// 			thumb.className = "fa fa-thumbs-up";
-// 			thumb.style.display = "inline";
-// 			if (data.already_rated)
-// 				thumb.style.color = "#f5ba00";
-// 			thumb.id = thumb_id;
-// 			thumb.onclick = function(){
-// 				var el = event.target.closest("article");
-// 				var postId = $(el).attr("data-post-id");
-//
-// 				$.ajax(
-// 					document.location.origin + "/stem/rating/get.json",
-// 					{
-// 						data: {
-// 							post_id: postId
-// 						},
-// 						success: function(data){
-// 							$("#stem-rate-post-id").val(postId);
-// 							var rating = data.rating;
-// 							var container = $("#stem-rate-fields")[0];
-// 							container.innerHTML = "";
-// 							for (var i in rating){
-// 								var r = rating[i];
-//
-// 								var intermediate = document.createElement("div");
-// 								intermediate.className = "stem-modal-intermediate-container";
-//
-// 								var label;
-// 								label = document.createElement("div");
-// 								label.innerHTML = r.name;
-// 								label.className = "stem-modal-rating-left";
-// 								intermediate.append(label);
-//
-// 								var hidden;
-// 								hidden = document.createElement("input");
-// 								hidden.type = "hidden";
-// 								hidden.name = "criteria_ids[]";
-// 								hidden.value = r.id;
-// 								intermediate.append(hidden);
-//
-// 								var stars;
-// 								stars = document.createElement("div");
-// 								document.className = "stem-modal-rating-right";
-//
-// 								var input;
-// 								input = document.createElement("input")
-// 								input.type = "number";
-// 								input.className = "rating";
-// 								input.name = "criteria_values[]";
-// 								input.value = r.value;
-// 								stars.append(input);
-// 								intermediate.append(stars);
-//
-// 								container.append(intermediate);
-// 							}
-//
-// 							$('.rating').rating();
-//
-// 							if (data.already_rated){
-// 								$("#stem-vote")[0].style.display = "none";
-// 								$("#stem-revote")[0].style.display = "block";
-// 								$("#button-retract")[0].style.display = "inline";
-// 							} else {
-// 								$("#stem-vote")[0].style.display = "block";
-// 								$("#stem-revote")[0].style.display = "none";
-// 								$("#button-retract")[0].style.display = "none";
-// 							}
-//
-// 							modal.style.display = "block";
-// 						}
-// 					}
-// 				);
-// 			}
-// 			rate.append(thumb);
-//
-// 			var count = document.createElement("button");
-// 			count.style.display = "inline";
-// 			count.style.className = "widget-button btn-flat";
-// 			count.append("(" + data.count + ")");
-// 			count.id = count_id;
-// 			rate.parentNode.prepend(count);
-//
-// 			count.onclick = function(){
-// 				var selector = "#rating-by-criteria-" + post.id;
-// 				var results = $(selector);
-// 				if (results[0]) {
-// 					$(selector).remove();
-// 				}
-// 				else {
-// 					$.ajax(
-// 						document.location.origin + "/stem/rating/average.json",
-// 						{
-// 							data: {
-// 								post_id: post.id
-// 							},
-// 							success: function(data){
-// 								var ratings = data.rating_by_criteria;
-//
-// 								if (data.average > 0){
-//
-// 									var div = document.createElement("div");
-// 									div.id = "rating-by-criteria-" + post.id;
-//
-// 									var title = document.createElement("div");
-// 									title.innerHTML = "Reasons for upvote";
-// 									title.style = "font-size: 20px; font-weight: bold; padding: 10px;";
-// 									div.append(title);
-//
-// 									for (var key in ratings){
-// 										var value = ratings[key];
-// 										var rating_div = document.createElement("div");
-// 										rating_div.style = "font-size: 16px; padding: 5px;";
-// 										rating_div.append(value + " ");
-// 										var i = document.createElement("i");
-// 										i.className = "fa fa-star";
-// 										rating_div.append(i);
-// 										rating_div.append(" " + key);
-// 										div.append(rating_div);
-// 									}
-//
-// 									var id = "#post_" + post.post_number;
-// 									var nav_id = id + " .post-menu-area";
-// 									var nav = $(nav_id)[0];
-// 									nav.append(div);
-// 								}
-// 							}
-// 						}
-// 					)
-// 				}
-// 			};
-// 		}
-// 	}
-// );
-import showModal from "discourse/lib/show-modal"
+const criteria = {
+  'creativity': 1,
+  'interest': 4,
+  'entertainment': 2,
+  'usefulness': 6,
+}
 
 export default {
   name: 'stem-rate-button',
-  initialize: function() {
+  initialize: function(container) {
     withPluginApi('0.8.6', api => {
-			api.reopenWidget('post-menu', {
-				like() {
-					this._super()
-					const post = this.attrs
 
-					if (!post.liked && post.post_number === 1) {
-						showModal("stemRate", { post })
-					}
-				}
-			})
+      Object.keys(criteria).forEach(section => {
+        api.attachWidgetAction('post-menu', `rate${section}`, function() {
+          this.state.visible = this.state.visible === section ? null : section
+        })
+      })
+
+      api.reopenWidget('post-menu', {
+        defaultState({ id, post_number }) {
+          const state = this._super()
+
+          if (!state.rating && post_number === 1) {
+            state.rating = {}
+            ajax('/stem/rating/get.json', { type: 'GET', data: { post_id: id } }).then(({ rating }) => {
+              state.rating = Object.entries(criteria).reduce((result, [key, id]) => {
+                result[key] = rating[id].value
+                return result
+              }, {})
+              this.scheduleRerender()
+            })
+          }
+
+          return state
+        },
+
+        rate({ postId, section, stars }) {
+          this.state.rating[section] = stars + 1
+          this.state.visible = null
+          ajax('/stem/rating/rate.json', {
+            type: 'POST',
+            data: {
+              post_id: postId,
+              criteria_ids: Object.keys(this.state.rating).map(k => criteria[k]),
+              criteria_values: Object.values(this.state.rating),
+            }
+          })
+        },
+
+        html(attrs, state) {
+          const html = this._super(attrs, state)
+
+          if (attrs.post_number === 1) {
+            Object.keys(criteria).forEach(section => (
+              html[0].children[0].children.unshift(
+                h('div.extra-buttons', this.attach('stem-rate-button', {
+                  section,
+                  postId: attrs.id,
+                  rating: this.state.rating[section],
+                  visible: this.state.visible,
+                }))
+              )
+            ))
+          }
+
+          return html
+        }
+      })
+
+      api.createWidget('stem-rate-button', {
+        html({ section, postId, rating, visible }) {
+          return [
+            this.attach('flat-button', {
+              action: `rate${section}`,
+              title: `stem_rating.${section}`,
+              icon: `stem-rating-${section}`
+            }),
+            this.attach('stem-rate-stars', {
+              visible: visible === section,
+              section,
+              postId,
+              rating,
+            }),
+            rating ? h('span.stem-rate-current', `${rating}`) : ''
+          ]
+        }
+      })
+
+      api.createWidget('stem-rate-stars', {
+        tagName: 'div.stem-rate-stars',
+
+        buildClasses({ visible }) {
+          return visible ? ['visible'] : []
+        },
+
+        html({ section, rating, postId }) {
+          return [...Array(5)].map((_, stars) => (
+            this.attach('stem-rate-star', { section, postId, stars, rating })
+          ))
+        }
+      })
+
+      api.createWidget('stem-rate-star', {
+        tagName: 'div.stem-rate-star',
+
+        buildClasses({ section, stars, rating }) {
+          return rating > stars ? ['active'] : []
+        },
+
+        html({ rating }) {
+          return renderIcon('node', 'stem-rating-star')
+        },
+
+        click() {
+          this.sendWidgetAction('rate', this.attrs)
+        }
+      })
 		})
   }
 }

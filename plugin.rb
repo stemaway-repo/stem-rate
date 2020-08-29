@@ -8,41 +8,11 @@
 
 enabled_site_setting :post_snippet_max_length
 
-# gem 'ajax-datatables-rails'
-# gem 'jquery-datatables'
-
-register_asset "stylesheets/fontawesome.all.css"
-register_asset "stylesheets/fontawesome.v4-shims.css"
-
-register_asset "webfonts/fa-brands-400.eot"
-register_asset "webfonts/fa-brands-400.woff"
-register_asset "webfonts/fa-brands-400.woff2"
-register_asset "webfonts/fa-brands-400.svg"
-register_asset "webfonts/fa-brands-400.ttf"
-
-register_asset "webfonts/fa-regular-400.eot"
-register_asset "webfonts/fa-regular-400.woff"
-register_asset "webfonts/fa-regular-400.woff2"
-register_asset "webfonts/fa-regular-400.svg"
-register_asset "webfonts/fa-regular-400.ttf"
-
-register_asset "webfonts/fa-solid-900.eot"
-register_asset "webfonts/fa-solid-900.woff"
-register_asset "webfonts/fa-solid-900.woff2"
-register_asset "webfonts/fa-solid-900.svg"
-register_asset "webfonts/fa-solid-900.ttf"
-
 register_asset "javascripts/jquery.dataTables.min.js"
-register_asset "javascripts/simple.rating.js"
 register_asset "stylesheets/jquery.dataTables.min.css"
-register_asset "stylesheets/stem.modal.css"
-register_asset "stylesheets/simple.rating.css"
-
-# register_asset "javascripts/jquery.modal.min.js"
-# register_asset "stylesheets/jquery.modal.min.css"
+register_asset "stylesheets/stem-rate.scss"
 
 add_admin_route 'stem_rating.title', 'stem'
-# add_admin_route 'stem_category.title', 'stemcat'
 
 Discourse::Application.routes.append do
   get '/admin/plugins/stem' => 'admin/plugins#index', constraints: StaffConstraint.new
@@ -51,35 +21,6 @@ end
 
 
 after_initialize do
-
-	#SiteSetting.tagging_enabled = true
-	#SiteSetting.min_trust_to_create_tag = 0
-	#SiteSetting.discourse_math_enabled = true
-	#SiteSetting.discourse_math_provider = "katex"
-	#SiteSetting.username_change_period = 0
-	#SiteSetting.default_trust_level = 1
-	#SiteSetting.logo = nil
-	#SiteSetting.logo_small = nil
-	#SiteSetting.post_menu = "share|flag|edit|bookmark|delete|admin|reply"
-	#SiteSetting.min_first_post_typing_time = 10
-	#SiteSetting.title = "STEM Away"
-	#SiteSetting.min_trust_to_create_tag = 0
-	#SiteSetting.max_topics_in_first_day = 100
-	#SiteSetting.max_topics_per_day = 100
-	#SiteSetting.newuser_spam_host_threshold = 100
-	#SiteSetting.newuser_max_attachments = 100
-	#SiteSetting.newuser_max_images = 100
-	#SiteSetting.newuser_max_links = 100
-	#SiteSetting.newuser_max_mentions_per_post = 100
-	#SiteSetting.newuser_max_replies_per_topic = 100
-	#SiteSetting.max_consecutive_replies = 100
-	#SiteSetting.rate_limit_create_topic = 5
-	#SiteSetting.rate_limit_create_post = 5
-	#SiteSetting.rate_limit_new_user_create_topic = 5
-	#SiteSetting.rate_limit_new_user_create_post = 5
-	#SiteSetting.content_security_policy = 0
-	#SiteSetting.min_trust_to_send_messages = 0
-
 	require_dependency 'application_controller'
 
 	[

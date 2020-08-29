@@ -1,0 +1,86 @@
+nav.post-controls {
+  .stem-rate-stars {
+    display: flex;
+    position: absolute;
+    bottom: 75%;
+    left: -50px;
+    background: $primary-very-low;
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: 0 0 4px $primary-low;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+
+    &.visible {
+      bottom: 100%;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .stem-rate-current {
+    position: absolute;
+    left: 24px;
+    font-size: 12px;
+    top: 18px;
+    font-weight: bold;
+  }
+
+  .stem-rate-star {
+    margin: 4px;
+    color: $primary-high;
+    cursor: pointer;
+
+    svg {
+      box-sizing: border-box;
+    }
+
+    &:hover {
+      color: $primary;
+    }
+
+    &.active {
+      color: $love;
+    }
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+  }
+
+  .extra-buttons {
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+
+    .widget-button {
+      background: $primary-very-low;
+      margin: 0;
+    }
+
+    &:nth-child(1) {
+      &:before {
+        content: 'Rate this post';
+        white-space: nowrap;
+        font-size: 10px;
+        position: absolute;
+        top: -14px;
+        left: 8px;
+      }
+
+      .widget-button {
+        border-radius: 10px 0 0 10px;
+      }
+    }
+
+    &:nth-child(4) {
+      flex-grow: 1;
+
+      .widget-button {
+        border-radius: 0 10px 10px 0;
+      }
+    }
+  }
+}

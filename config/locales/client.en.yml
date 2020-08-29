@@ -3,5 +3,9 @@ en:
     stem_rating:
       title: "STEM Rating"
       rate_title: "rate this post"
+      creativity: Rate creativity
+      interest: Rate interest
+      entertainment: Rate entertainment
+      usefulness: Rate usefulness
     stem_category:
       title: "STEM Category"
