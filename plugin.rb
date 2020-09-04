@@ -4,8 +4,6 @@
 # author: wally
 # url: null
 
-# todo: https://docs.discourse.org/#tag/Users%2Fpaths%2F~1user_actions.json%2Fget
-
 enabled_site_setting :post_snippet_max_length
 
 register_asset "javascripts/jquery.dataTables.min.js"
@@ -35,14 +33,14 @@ after_initialize do
 
 		# controllers
 		'../app/controllers/stem_rating_controller.rb',
-	    '../app/controllers/stem_admin_rating_controller.rb',
-	    '../app/controllers/stem_activity_controller.rb',
-	    '../app/controllers/stem_category_controller.rb',
+    '../app/controllers/stem_admin_rating_controller.rb',
+    '../app/controllers/stem_activity_controller.rb',
+    '../app/controllers/stem_category_controller.rb',
 
 	].each { |path| load File.expand_path(path, __FILE__) }
 
 	Discourse::Application.routes.append do
-		
+
 		get "stem/users/:username/:tag" => "stemactivity#posts_by_tag", constraints: AdminConstraint.new(require_master: true)
 		get "stem/tag/create/:tag" => "stemactivity#create_tag", constraints: AdminConstraint.new(require_master: true)
 
@@ -58,22 +56,15 @@ after_initialize do
 
 		get "admin/plugins/stemcat/list" => "stemcategory#index", constraints: StaffConstraint.new
 		get "admin/plugins/stemcat/update" => 'stemcategory#update', constraints: StaffConstraint.new
-
 	end
 
 	DiscourseEvent.on(:category_created) do |c|
-		s = StemRatingSystem.where(:name => "Default Rating System").first()
 		StemRatingSystemCategory.create(
-			:stem_rating_system_id => s.id,
-			:category_id => c.id
+      stem_rating_system: StemRatingSystem.find_by(name: "Default Rating System"),
+      category: c
 		)
 	end
 
-	DiscourseEvent.on(:post_created) do |post|
-		StemPost.extract_tags(post)
-	end
-
-	DiscourseEvent.on(:post_edited) do |post|
-		StemPost.extract_tags(post)
-	end
+	DiscourseEvent.on(:post_created) { |post| StemPost.extract_tags(post) }
+	DiscourseEvent.on(:post_edited)  { |post| StemPost.extract_tags(post) }
 end

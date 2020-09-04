@@ -1,4 +1,3 @@
-
 class ::StemRatingSystem < ActiveRecord::Base
 	has_many :stem_criteria
 	has_many :stem_rating_system_category
