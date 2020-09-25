@@ -4,7 +4,7 @@
 	<div id="datatable-container">
 
 		<table
-			id="datatable"
+			id="category-datatable"
 			style="width:100%"
 			data-order='[[1,"asc"]]'
 			data-page-length='25'
@@ -26,43 +26,3 @@
 	</div>
 
 </center>
-
-<script type="text/javascript">
-
-	function stemError(jqXHR, textStatus, errorThrown){
-		// todo: error reporting modal?
-		console.log("datatable request error");
-		console.log(jqXHR, textStatus, errorThrown);
-	}
-
-	function stemOnChange(e){
-		var select = e.target;
-		$.ajax(
-			"stemcat/update.json",
-			{
-				data: {
-					category_id: select.id,
-					stem_rating_system_id: 
-						select.options[select.selectedIndex].value
-				},
-				success: function(data){
-					console.log(data);
-				},
-				error: stemError
-			}
-		);
-	}
-
-	$(document).ready( function () {
-		$('#datatable').DataTable({
-	    	"processing": true,
-	    	"serverSide": true,
-	    	"ajax": {
-	    		url: "stemcat/list.json",
-	    		type: "get",
-	    		error: stemError
-	    	}
-	    });
-	});
-
-</script>

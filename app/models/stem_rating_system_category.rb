@@ -1,4 +1,3 @@
-
 class ::StemRatingSystemCategory < ActiveRecord::Base
 	self.table_name = "stem_rating_system_category"
 	belongs_to :category

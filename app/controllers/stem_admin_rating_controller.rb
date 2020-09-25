@@ -32,7 +32,7 @@ class ::StemratingadminController < ::ApplicationController
 		count = nil
 		if (search and search != "")
 			systems = systems.where("categories.name ILIKE ?", "%#{search}%")
-			count = systems.where("categories.name ILIKE ?", "%#{search}%").count 
+			count = systems.where("categories.name ILIKE ?", "%#{search}%").count
 		end
 
 		if (!count)
@@ -45,13 +45,13 @@ class ::StemratingadminController < ::ApplicationController
 			data[i] = []
 			data[i][0] = s.category.name
 			data[i][1] = s.stem_rating_system.to_s
-			data[i][2] = "<a href='#' onclick='stemEdit(#{s.category.id.to_s});'>Edit</a>"
-			data[i][3] ="<a href='#' onclick='stemReset(#{s.category.id.to_s});'>Reset</a>"
+			data[i][2] = "<a href='#' class='stem-edit' data-id='#{s.category.id}'>Edit</a>"
+			data[i][3] ="<a href='#' class='stem-reset' data-id='#{s.category.id}'>Reset</a>"
 			i = i + 1
 		end
 
 		respond_to do |format|
-			msg = { 
+			msg = {
 				:draw => draw,
 				:recordsTotal => totalCount,
 				:recordsFiltered => count,
@@ -79,7 +79,7 @@ class ::StemratingadminController < ::ApplicationController
 		else
 			srs = default
 		end
-		
+
 		srs.stem_criteria.destroy_all()
 
 		criteria_names = params[:criteria_names]
@@ -104,7 +104,7 @@ class ::StemratingadminController < ::ApplicationController
 		srs = StemRatingSystem.includes(:stem_criteria).find(srs.id)
 
 		respond_to do |format|
-			msg = { 
+			msg = {
 				:system => srs,
 				:criteria => srs.stem_criteria
 			}
