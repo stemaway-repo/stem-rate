@@ -13,7 +13,7 @@ const criteria = {
 }
 
 export default {
-  name: 'stem-rate-button',
+  name: 'stem-rate-init',
   initialize: function(container) {
     withPluginApi('0.8.6', api => {
 
