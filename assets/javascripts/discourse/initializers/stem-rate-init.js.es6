@@ -7,8 +7,8 @@ import { renderIcon } from 'discourse-common/lib/icon-library'
 
 const criteria = {
   'creativity': 1,
-  'interest': 4,
-  'entertainment': 2,
+  'technicality': 3,
+  'clarity': 2,
   'usefulness': 6,
 }
 

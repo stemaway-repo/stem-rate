@@ -3,9 +3,9 @@ en:
     stem_rating:
       title: STEM Rating
       rate_title: rate this post
-      creativity: Rate creativity
-      interest: Rate interest
-      entertainment: Rate entertainment
-      usefulness: Rate usefulness
+      clarity: Clear Communication
+      creativity: Originality/Creativity
+      technicality: Technical Excellence
+      usefulness: Useful Site Information
     stem_category:
       title: STEM Category
