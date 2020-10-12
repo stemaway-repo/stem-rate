@@ -45,6 +45,23 @@ nav.post-controls {
     }
   }
 
+  .stem-rate-clear {
+    font-size: 32px;
+    margin-top: -8px;
+    height: 24px;
+    width: 24px;
+    color: $primary-high;
+    cursor: pointer;
+
+    svg {
+      box-sizing: border-box;
+    }
+
+    &:hover {
+      color: $primary;
+    }
+  }
+
   .actions {
     width: 100%;
     display: flex;

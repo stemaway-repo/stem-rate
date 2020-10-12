@@ -58,7 +58,7 @@ class ::StemratingController < ::ApplicationController
 		already_rated = false
 
 		post = Post.find(post_id)
-		category_id = post.topic.category.id
+		category_id = post.topic&.category&.id
 
 		srs = StemRatingSystemCategory.where(
 			:category_id => category_id).first()
