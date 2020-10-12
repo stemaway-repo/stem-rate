@@ -56,19 +56,23 @@ export default {
 
         html(attrs, state) {
           const html = this._super(attrs, state)
+          if (
+            !html.length ||
+            !html[0].children.length ||
+            !html[0].children[0].children ||
+            attrs.post_number > 1
+          ) { return }
 
-          if (attrs.post_number === 1) {
-            Object.keys(criteria).forEach(section => (
-              html[0].children[0].children.unshift(
-                h('div.extra-buttons', this.attach('stem-rate-button', {
-                  section,
-                  postId: attrs.id,
-                  rating: this.state.rating[section],
-                  visible: this.state.visible,
-                }))
-              )
-            ))
-          }
+          Object.keys(criteria).forEach(section => (
+            html[0].children[0].children.unshift(
+              h('div.extra-buttons', this.attach('stem-rate-button', {
+                section,
+                postId: attrs.id,
+                rating: this.state.rating[section],
+                visible: this.state.visible,
+              }))
+            )
+          ))
 
           return html
         }
