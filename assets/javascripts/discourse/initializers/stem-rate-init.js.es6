@@ -27,7 +27,7 @@ export default {
         defaultState({ id, post_number }) {
           const state = this._super()
 
-          if (!state.rating && post_number === 1) {
+          if (this.currentUser && !state.rating && post_number === 1) {
             state.rating = {}
             ajax('/stem/rating/get.json', { type: 'GET', data: { post_id: id } }).then(({ rating }) => {
               state.rating = Object.entries(criteria).reduce((result, [key, id]) => {
@@ -57,6 +57,7 @@ export default {
         html(attrs, state) {
           const html = this._super(attrs, state)
           if (
+            !this.currentUser ||
             !html.length ||
             !html[0].children.length ||
             !html[0].children[0].children ||
