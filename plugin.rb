@@ -42,7 +42,7 @@ after_initialize do
 		get "stem/tag/create/:tag" => "stemactivity#create_tag", constraints: AdminConstraint.new(require_master: true)
 
 		get "stem/rating/get" => "stemrating#get"
-		get "stem/rating/rate" => "stemrating#rate"
+		post "stem/rating/rate" => "stemrating#rate"
 		get "stem/rating/retract" => "stemrating#retract"
 		get "stem/rating/average" => "stemrating#average"
 

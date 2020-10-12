@@ -42,7 +42,11 @@ export default {
         },
 
         rate({ postId, section, stars }) {
-          this.state.rating[section] = stars + 1
+          if (stars >= 0) {
+            this.state.rating[section] = stars + 1
+          } else {
+            delete this.state.rating[section]
+          }
           this.state.visible = null
           ajax('/stem/rating/rate.json', {
             type: 'POST',
@@ -93,7 +97,7 @@ export default {
               postId,
               rating,
             }),
-            rating ? h('span.stem-rate-current', `${rating}`) : ''
+            (rating > 0) ? h('span.stem-rate-current', `${rating}`) : ''
           ]
         }
       })
@@ -106,9 +110,12 @@ export default {
         },
 
         html({ section, rating, postId }) {
-          return [...Array(5)].map((_, stars) => (
+          const clear = (rating > 0) ? [this.attach('stem-rate-clear', { section, postId })] : []
+          const stars = [...Array(5)].map((_, stars) => (
             this.attach('stem-rate-star', { section, postId, stars, rating })
           ))
+
+          return clear.concat(stars)
         }
       })
 
@@ -121,6 +128,18 @@ export default {
 
         html({ rating }) {
           return renderIcon('node', 'stem-rating-star')
+        },
+
+        click() {
+          this.sendWidgetAction('rate', this.attrs)
+        }
+      })
+
+      api.createWidget('stem-rate-clear', {
+        tagName: 'div.stem-rate-clear',
+
+        html({ rating }) {
+          return renderIcon('node', 'stem-rating-clear')
         },
 
         click() {
